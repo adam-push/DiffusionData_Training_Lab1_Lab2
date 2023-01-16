@@ -9,7 +9,7 @@ const password = "password";
 
 // Add a topic and set its value
 console.log("Connecting...");
-const diff = diffusion
+diffusion
   .connect({
     host: host,
     port: port,
@@ -28,15 +28,17 @@ const diff = diffusion
     );
 
     // Send updates
-    setInterval(function () { publish(session, 0) }, 1000);
-  }).catch(error => console.log(error));
+    let i = 0;
+    setInterval(publish, 1000);
 
-function publish(session, i) {
-  session.topicUpdate.set(
-    "my/first/topic",
-    diffusion.datatypes.string(),
-    "Hello World -" + i
-  );
-  console.log("Count:", i);
-  setInterval(function () { publish(session, i + 1) }, 1000);
-}
+    function publish() {
+      i += 1;
+      session.topicUpdate.set(
+        "my/first/topic",
+        diffusion.datatypes.string(),
+        "Hello World -" + i
+      );
+      console.log("Count:", i);
+    }
+  })
+  .catch((error) => console.log(error));
