@@ -2,3 +2,10 @@
 Java/Messaging/target/
 Java/PubSub/target/
 NodeJS/PubSub/node_modules/
+dotNET/Publish/bin
+dotNET/Publish/obj
+dotNET/Publish/.vs
+dotNET/Subscribe/bin
+dotNET/Subscribe/obj
+dotNET/Subscribe/.vs
+
