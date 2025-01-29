@@ -16,27 +16,21 @@ import com.pushtechnology.diffusion.client.topics.details.TopicType;
 
 public class HelloWorldPublisher {
 
-    Session session;
-    TopicControl topicControl;
-    TopicUpdate topicUpdate;
+    private Session session;
+    private TopicControl topicControl;
+    private TopicUpdate topicUpdate;
 
     private static final Logger LOG = LoggerFactory.getLogger(HelloWorldPublisher.class);
 
     public HelloWorldPublisher() {
         connect("ws://localhost:8080", "admin", "password");
+
         try {
             this.publishToTopic("my/first/topic");
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (TimeoutException e) {
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     public void connect(String url, String username, String password) {
@@ -55,9 +49,6 @@ public class HelloWorldPublisher {
         final CompletableFuture<TopicControl.AddTopicResult> future = topicControl.addTopic(topicPath,
                 TopicType.STRING);
 
-        // Wait for the CompletableFuture to complete
-        future.get(10, TimeUnit.SECONDS);
-
         // Update the topic
         for (long i = 0; i < 1000; ++i) {
 
@@ -71,7 +62,6 @@ public class HelloWorldPublisher {
 
     public static void main(String[] args) {
         new HelloWorldPublisher();
-
     }
 
 }
