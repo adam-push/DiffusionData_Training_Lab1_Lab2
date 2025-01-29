@@ -11,18 +11,23 @@ import com.pushtechnology.diffusion.client.topics.details.TopicSpecification;
 
 public class HelloWorldSubscriber {
 
-    Session session;
-    Topics topics;
+    private Session session;
+    private Topics topics;
     private static final Logger LOG = LoggerFactory.getLogger(HelloWorldSubscriber.class);
+
+    private static class ValueStreamPrintLn extends ValueStream.Default<String> {
+        @Override
+        public void onValue(String topicPath, TopicSpecification specification, String oldValue, String newValue) {
+            System.out.println(topicPath + ":   " + newValue);
+        }
+    }
 
     public HelloWorldSubscriber() {
         connect("ws://localhost:8080");
         this.subscribeToTopic("my/first/topic");
-
     }
 
     public void connect(String url) {
-
         session = Diffusion.sessions().open(url);
     }
 
@@ -51,14 +56,5 @@ public class HelloWorldSubscriber {
 
     public static void main(String[] args) {
         new HelloWorldSubscriber();
-
     }
-
-    private static class ValueStreamPrintLn extends ValueStream.Default<String> {
-        @Override
-        public void onValue(String topicPath, TopicSpecification specification, String oldValue, String newValue) {
-            System.out.println(topicPath + ":   " + newValue);
-        }
-    }
-
 }
